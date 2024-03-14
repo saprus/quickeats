@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "api/car/v1")
+@RequestMapping(path = "api/cars")
 public class CarController {
 
-    private CarService carService;
+    private final CarService carService;
 
     @Autowired
     public CarController(CarService carService) {
@@ -17,26 +18,18 @@ public class CarController {
     }
 
     @GetMapping()
-    public List<CarModel> getCars() {
+    public List<Car> getCars() {
         return carService.grabCars();
     }
 
+
     @PostMapping()
-    public void postCars(@RequestBody CarModel carModel) {
-        carService.addCars(carModel);
+    public void postCars(@RequestBody Car car) {
+        carService.addCars(car);
     }
 
     @DeleteMapping(path = "/{id}")
     public void deleteCars(@PathVariable Long id) {
         carService.removeCars(id);
     }
-
-    @PutMapping(path = "/{id}")
-    public void putCars(@PathVariable Long id,
-                        @RequestParam(required = false) String make,
-                        @RequestParam(required = false) Integer carYear
-                        ){
-        carService.updateCars(id, make, carYear);
-    }
-
 }

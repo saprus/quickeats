@@ -7,22 +7,23 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class CarModel {
+public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String make;
-    private Integer carYear;
 
-    public CarModel(String make, Integer carYear) {
-        this.make = make;
-        this.carYear = carYear;
+    private String model;
+    private String colour;
+
+    public Car(String model, String colour) {
+        this.model = model;
+        this.colour = colour;
     }
+
 }

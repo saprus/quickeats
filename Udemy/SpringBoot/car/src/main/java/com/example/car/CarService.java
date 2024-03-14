@@ -2,50 +2,36 @@ package com.example.car;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class CarService {
 
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
 
     @Autowired
     public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
     }
 
-    public List<CarModel> grabCars() {
+    public List<Car> grabCars() {
         return carRepository.findAll();
     }
 
-    public void addCars(CarModel carModel) {
-        carRepository.save(carModel);
+    public void addCars(Car car) {
+        carRepository.save(car);
     }
 
     public void removeCars(Long id) {
-        carRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Car not found"));
+        Optional<Car> optionalCar = carRepository.findById(id);
 
-        carRepository.deleteById(id);
-    }
-
-    @Transactional
-    public void updateCars(Long id, String make, Integer carYear) {
-        CarModel optionalCar = carRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Car not found"));
-
-        if (make != null && !make.isEmpty() && !Objects.equals(make, optionalCar.getMake())) {
-            System.out.println("in make");
-            optionalCar.setMake(make);
+        if (optionalCar.isPresent()) {
+            carRepository.deleteById(id);
         }
-        if (carYear != null && carYear > 0 && !Objects.equals(carYear, optionalCar.getCarYear())) {
-            System.out.println("in year");
-            optionalCar.setCarYear(carYear);
+        else {
+            throw new IllegalStateException("Car not found");
         }
-
     }
 }
