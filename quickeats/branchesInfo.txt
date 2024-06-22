@@ -1,0 +1,5 @@
+Main : Basic branch
+
+dev1.1 : Incorporate new changes for a separate Grocery entity 
+
+dev1.2 : Separated Grocery entity and related it to User using groceryId  (NEW)
