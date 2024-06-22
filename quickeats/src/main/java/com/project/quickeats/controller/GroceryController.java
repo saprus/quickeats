@@ -24,10 +24,10 @@ public class GroceryController {
         return groceryService.getAllGroceries();
     }
 
-    @GetMapping("/{userId}")
-    public List<Grocery> getGroceriesByUserId(@PathVariable Long userId) {
-        return groceryService.getGroceriesByUserId(userId);
-    }
+//    @GetMapping("/{userId}")
+//    public List<Grocery> getGroceriesByUserId(@PathVariable Long userId) {
+//        return groceryService.getGroceriesByUserId(userId);
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Grocery> getGroceryById(@PathVariable Long id) {

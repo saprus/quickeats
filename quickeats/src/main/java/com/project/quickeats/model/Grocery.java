@@ -12,16 +12,14 @@ public class Grocery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @JsonProperty("userid")
-//    private Long userId;
     private String itemName;
     private String category;
-    private Integer quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonBackReference
-    private User user;
-    // Used Lombok the generate setUser()
+    public Grocery() {
+    }
 
+    public Grocery(String itemName, String category) {
+        this.itemName = itemName;
+        this.category = category;
+    }
 }

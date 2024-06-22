@@ -2,7 +2,9 @@ package com.project.quickeats.service;
 
 import com.project.quickeats.model.Grocery;
 import com.project.quickeats.model.User;
+import com.project.quickeats.model.UserGrocery;
 import com.project.quickeats.repository.GroceryRepository;
+import com.project.quickeats.repository.UserGroceryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +14,14 @@ import java.util.List;
 public class GroceryService {
 
     private final GroceryRepository groceryRepository;
+    private final UserGroceryRepository userGroceryRepository;
     private final UserService userService;
 
     @Autowired
-    public GroceryService(GroceryRepository groceryRepository, UserService userService) {
+    public GroceryService(GroceryRepository groceryRepository, UserService userService, UserGroceryRepository userGroceryRepository) {
         this.groceryRepository = groceryRepository;
         this.userService = userService;
+        this.userGroceryRepository = userGroceryRepository;
     }
 
     public List<Grocery> getAllGroceries() {
@@ -27,39 +31,32 @@ public class GroceryService {
     public Grocery getGroceryById(Long id) {
         return groceryRepository.findById(id).orElseThrow(() -> new RuntimeException("Grocery not found"));
     }
-    public List<Grocery> getGroceriesByUserId(Long userId) {
-        return groceryRepository.findAllByUserId(userId);
-    }
+//    public List<Grocery> getGroceriesByUserId(Long userId) {
+//        return groceryRepository.findAllByUserId(userId);
+//    }
     public Grocery saveGrocery(Grocery grocery) {
-        // Here we are getting the appropriate User by grocery's "userId"
-        // and adding it to that particular User's grocery
-        User groceryUser = userService.getUserById(grocery.getUser().getId());
-        grocery.setUser(groceryUser);
+
         return groceryRepository.save(grocery);
+//        // Save the grocery
+//        Grocery savedGrocery = groceryRepository.save(grocery);
+//
+//        // Get the user
+//        User user = userService.getUserById(userId);
+//
+//        // Create a new UserGrocery item
+//        UserGrocery userGrocery = new UserGrocery();
+//        userGrocery.setUser(user);
+//        userGrocery.setGrocery(savedGrocery);
+//        userGrocery.setQuantity(quantity);
+//
+//        // Save the UserGrocery item
+//        userGroceryRepository.save(userGrocery);
+//
+//        return savedGrocery;
     }
 
     // todo: Work on this function
     public void deleteGroceryByUserIdAndGroceryId(Long userId, Long groceryId) {
-
-    User user = userService.getUserById(userId);
-
-    Grocery grocery = groceryRepository.findById(groceryId)
-        .orElseThrow(() -> new RuntimeException("Grocery not found"));
-
-    // Check if the User is the correct one
-    if (!grocery.getUser().getId().equals(user.getId())) {
-        throw new RuntimeException("User ID does not match with the grocery's user ID");
-    }
-
-    // If the User is correct, delete the grocery
-    groceryRepository.delete(grocery);
-
-    // Update the grocery count for the user
-    //    List<Grocery> userGroceries = groceryRepository.findAllByUserId(userId);
-    //    user.setGroceryCount(userGroceries.size());
-
-    // Save the updated user
-    userService.saveUser(user);
 }
 
 
@@ -67,7 +64,6 @@ public class GroceryService {
         Grocery existingGrocery = groceryRepository.findById(id).orElseThrow(() -> new RuntimeException("Grocery not found"));
         existingGrocery.setItemName(groceryDetails.getItemName());
         existingGrocery.setCategory(groceryDetails.getCategory());
-        existingGrocery.setQuantity(groceryDetails.getQuantity());
 
         return groceryRepository.save(existingGrocery);
     }

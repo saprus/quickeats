@@ -1,6 +1,9 @@
 package com.project.quickeats.service;
 
+import com.project.quickeats.model.Grocery;
 import com.project.quickeats.model.User;
+import com.project.quickeats.model.UserGrocery;
+import com.project.quickeats.repository.UserGroceryRepository;
 import com.project.quickeats.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +14,12 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserGroceryRepository userGroceryRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserGroceryRepository userGroceryRepository) {
         this.userRepository = userRepository;
+        this.userGroceryRepository = userGroceryRepository;
     }
 
     public List<User> getAllUsers() {
@@ -27,6 +32,15 @@ public class UserService {
 
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+    public void addGroceryToUser(Long userId, Grocery grocery, Integer quantity) {
+        User user = getUserById(userId);
+        UserGrocery userGrocery = new UserGrocery();
+        userGrocery.setUser(user);
+        userGrocery.setGrocery(grocery);
+        userGrocery.setQuantity(quantity);
+        userGroceryRepository.save(userGrocery);
     }
 
     public void deleteUserById(Long id) {

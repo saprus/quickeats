@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface GroceryRepository extends JpaRepository<Grocery, Long> {
 
-    List<Grocery> findAllByUserId(Long userId);
+    //List<Grocery> findAllByUserId(Long userId);
 }
