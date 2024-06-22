@@ -1,0 +1,39 @@
+{
+  "users" : [
+    {
+      "id" : 1,
+        "email" : "john@gmail.com",
+        "firstName": "John",
+        "lastName": "Doe"
+    },
+    {
+      "id" : 2,
+        "email" : "sissy@gmail.com",
+        "firstName": "Sissy",
+        "lastName": "Doe"
+    }
+  ],
+  "groceries" : [
+    {
+      "id" : 1,
+        "userid": 1,
+        "itemName" : "Milk",
+        "category" : "Dairy",
+        "quantity" : 2
+    },
+    {
+      "id" : 2,
+        "userid": 1,
+        "itemName" : "Bread",
+        "category" : "Bakery",
+        "quantity" : 1
+    },
+    {
+      "id" : 3,
+        "userid": 2,
+        "itemName" : "Eggs",
+        "category" : "Dairy",
+        "quantity" : 12
+    }
+  ]
+}
